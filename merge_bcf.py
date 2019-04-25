@@ -2,10 +2,12 @@
 import sys
 import numpy
 
+
 def read_bcf_header(fi):
     size = numpy.fromstring(fi.read(8), dtype=numpy.int64)
-    offsets = numpy.fromstring(fi.read(size*8), dtype=numpy.int64)
+    offsets = numpy.fromstring(fi.read(size * 8), dtype=numpy.int64)
     return size, offsets
+
 
 if __name__ == "__main__":
     bcf_files = sys.argv[3:]
@@ -14,7 +16,7 @@ if __name__ == "__main__":
     offsets = numpy.int64([])
     for f in bcf_files:
         fi = open(f)
-        s,o = read_bcf_header(fi)
+        s, o = read_bcf_header(fi)
         sizes = numpy.append(sizes, s)
         offsets = numpy.append(offsets, o)
         fi.close()
@@ -25,7 +27,7 @@ if __name__ == "__main__":
     fo.write(offsets)
     for f in bcf_files:
         fi = open(f)
-        read_bcf_header(fi) # skip header
+        read_bcf_header(fi)  # skip header
         fo.write(fi.read())
         fi.close()
     fo.close()
